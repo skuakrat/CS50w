@@ -1,0 +1,49 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+    <h2>Create new listing</h2>
+
+    {% if user.is_authenticated %}
+
+    {% if message %}
+        <div>{{ message }}</div>
+    {% endif %}
+    <form action="{% url 'create' %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="iuser" value="{{ user.id }}">
+        <div class="form-group">
+            Item*:
+            <input class="form-control" autofocus type="text" name="item" required>
+        </div>
+        <div class="form-group">
+            Category*:
+            <select class="form-control" name="cat" required>
+            {% for category in categorys %}
+              <option  value="{{ category.id }}">{{ category }}</option>
+            {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            Start bid*:
+            <input class="form-control" type="number" min="0.00" step="0.01" max="999999" name="iprice" required>
+        </div>
+        <div class="form-group">
+            Description (optional):
+            <textarea class="form-control" rows="5" name="des"></textarea>
+        </div>
+        <div class="form-group">
+            Image URL (optional):
+            <input class="form-control" autofocus type="text" name="url">
+        </div>
+        <input class="btn btn-dark" type="submit" value="Create">
+    </form>
+
+    {% else %}
+    Not signed in.
+    Plese sign in to creare a listing or register.
+    {% endif %}
+
+    
+
+{% endblock %}

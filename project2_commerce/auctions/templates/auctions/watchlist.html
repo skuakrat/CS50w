@@ -1,0 +1,18 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>My watchlist ({{wlno}})</h2>
+    <ul>
+        {% for watchlist in watchlists %}
+        <li><a href="{% url 'item' watchlist.id %}">  <img src="{{ watchlist.url }}" width="50px">   {{ watchlist }}  </a>
+            {% if watchlist.status == 1 %}<span style="color:rgb(0, 255, 0)">  <b>Active</b></span>
+            {% elif watchlist.status == 2 %}<span style="color:rgb(231, 0, 0)">  <b>Closed</b></span>
+            {%endif%}
+        </li> 
+        {% empty %}
+        <li>Empty list</li>
+        {% endfor %}
+    </ul>
+
+
+{% endblock %}

@@ -1,0 +1,124 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+{% if message %}
+<div class="alert alert-info">
+  <strong>{{ message }}</strong>
+</div>
+{% endif %}
+
+    <div class="card text-center">
+      
+        <div class="card-header">
+          <h2>{{ item.item }}</h2>
+        </div>
+        <div class="card-body">
+          <div class="wrapper row">
+          <div class="preview col-md-5">
+						
+						<div>
+                        {% if item.url %}
+                        <img src="{{ item.url }}" width="300" style="vertical-align:middle;margin:50px 50px">
+                        {% else %}
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSkRtJ0zorjyLV0t8g4rRqOo6S2n5QeG6QN0g&usqp=CAU" width="300" style="vertical-align:middle;margin:0px 50px">
+                        {% endif %}
+
+                        {% if user.is_authenticated %}
+                        Watching: {{ watching }}
+                        {% if watching == "no" %}
+                        <p><a href="{% url 'watch' item.id %}">Add to watchlist</a></p>
+                        {% else %}
+                        <p><a href="{% url 'unwatch' item.id %}">Remove from watchlist</a></p>
+                        {% endif %}
+                        {% endif %}
+						</div>
+						
+          </div>
+          <div class="details col-md-5"><br>
+          <h5 class="card-title">{{ item.item }}</h5>
+          <p class="card-text">{{ item.des }}</p>
+          <p><b>Listed by:</b> {{ item.iuser }} <b>| Category:</b> {{ item.cat }}</p>
+    
+          <br>
+          {% if item.ibid == 0.00 %}
+          <p><b>Start Price:</b>  ${{ item.iprice }}</br>
+              No bids yet</p>
+          {% else %}
+          <p><b>Start Price:</b>  <s>${{ item.iprice }}</s></br>
+            <b>Current bid:  <span style="color: rgb(44, 255, 44);">${{ item.ibid }}</span></b></p>
+        {% endif%}
+            <br>
+
+
+            {% if item.status == 1 %}
+          
+            {% if user.is_authenticated %}
+
+            <form action="{% url 'bid' item.id %}" method="post">
+            {% csrf_token %}
+            <div><input type="number" style="width: 15em" min="{{ bidmin }}" step="0.01" max="999999" name="bprice" required>
+            <button type="submit" class="btn btn-dark">Place your bid</button>
+            <p><small>*bid must be at least as large as the starting bid, and must be greater than any other bids that have been placed (if any). </small></p></div><br></form>
+            
+            {% if user == item.iuser %}
+            
+            <form action="{% url 'close' item.id %}" method="post">
+              {% csrf_token %}
+            <input type="hidden" name="status" value="2">
+            <div><button type="submit" class="btn btn-danger">Close your bid</button></div><br></form>
+            {% endif %}
+            
+            {% else %}
+            <h3>Please <a href="{% url 'login' %}">log in</a> or <a href="{% url 'login' %}">register</a> to start bidding.</h3>
+            <br><br>
+            {% endif %}{% endif %}
+
+            {% if item.status == 2 %}
+            <p>The winner is <strong>'{{ winner.buser }}'</strong></p>
+            <div class="alert alert-danger">
+              <strong>Hold on!</strong> This bid is closed.
+            </div>
+            
+            {% endif%}
+
+          
+</div></div>
+
+        
+        </div>
+        <div class="card-footer text-muted">
+          <b>Bid History:</b><br>
+          
+          {% for bid in bids %}
+          {{ bid.buser }} bidded for ${{ bid.bprice }}<br>
+          {% endfor %}
+        </div>
+        
+      </div>
+      <br><br>
+      <div class="card text-center">
+      
+        <div class="card-header">
+          <h2>Comments</h2>
+        </div>
+        <div class="card-body">
+          {% for comment in comments %}
+          <p> {{ comment.comment }} <br><b>- {{ comment.cuser }} </b> ({{ comment.cdate }})</b></p>
+          <hr>
+          {% endfor %}
+
+
+
+          {% if user.is_authenticated %}
+            
+          <form action="{% url 'comment' item.id %}" method="post">
+            {% csrf_token %}
+            <div class="form-group"><br><br>
+              <h5>Write your comment:</h5>
+              <textarea class="form-control" rows="5" name="comment" required></textarea>
+          </div>
+          <div><button type="submit" class="btn btn-dark">Comment</button></div><br></form>
+          {% endif %}
+        </div>
+{% endblock %}

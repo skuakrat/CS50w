@@ -1,0 +1,49 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>{% block title %}Social Network{% endblock %}</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link href="{% static 'network/styles.css' %}" rel="stylesheet">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    </head>
+    <body>
+
+        <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="#"><i class="fab fa-atlassian"> </i><strong>  Network </strong></a>
+          
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <div class="navbar-nav">
+                    <a href="{% url 'index' %}" class="nav-item nav-link">All Posts</a>
+                    {% if request.user.is_authenticated %}
+                    <span class="nav-item nav-link" id="navfollow" style="cursor: pointer;">Following</span>
+                    {% else %}{% endif %}
+                </div>
+
+                <div class="navbar-nav ml-auto">
+                    {% if user.is_authenticated %}
+                    <span class="navbar-text">Hello,</span>
+                    <span class="nav-item nav-link" id="navprofile" style="cursor: pointer;"><strong>{{ request.user }}</strong></span>            
+                    <a href="{% url 'logout' %}" class="nav-item nav-link">Log out</a>
+                    {% else %}
+                    <a href="{% url 'login' %}" class="nav-item nav-link">Log in</a>
+                    <a href="{% url 'register' %}" class="nav-item nav-link">Register</a>
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
+        
+        <div class="container">   
+            {% block body %}
+            {% endblock %}
+        </div>
+        {% block script %}
+        <script src="{% static 'network/inbox.js' %}"></script>
+    {% endblock %}
+    
+    </body>
+
+
+</html>

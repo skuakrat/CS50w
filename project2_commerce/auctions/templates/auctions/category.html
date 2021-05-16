@@ -1,0 +1,68 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+{% if cat %}
+<h2>Category: {{ cat }}</h2>
+
+
+{% if items %}    
+{% for item in items %}
+    <div class="container">
+		<div class="card">
+			<div class="container-fliud">
+				<div class="wrapper row">
+					<div class="preview col-md-5">
+						
+						<div>
+                            {% if item.url %}
+                            <img src="{{ item.url }}" width="300" style="vertical-align:middle;margin:10px 50px">
+                            {% else %}
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSkRtJ0zorjyLV0t8g4rRqOo6S2n5QeG6QN0g&usqp=CAU" width="300" style="vertical-align:middle;margin:0px 50px">
+                            {% endif %}
+                            </div>
+                            
+                        </div>
+                        <div class="details col-md-5"><br>
+                            <h3 class="product-title">{{ item.item }}</h3>
+                            <p class="product-description">{{ item.des }}</p>
+                            <p><b>Listed by:</b> {{ item.iuser }}<br>
+                            <b>Category:</b> {{ item.cat }}</p>
+                            {% if item.ibid == 0.00 %}
+                                <p><b>Start Price:</b>  ${{ item.iprice }}</br>
+                                        No bids yet</p>
+                                {% else %}
+                                <p><b>Start Price:</b>  <s>${{ item.iprice }}</s></br>
+                                    <b>Current bid:  <span style="color: rgb(44, 255, 44);">${{ item.ibid }}</span></b></p>
+                            {% endif%}
+                            <div>
+                                
+                            <button onclick="location.href='{% url 'item' item.id %}'" type="button" class="btn btn-dark">Bid this item</button>
+                                    
+                                
+                            </div><br>
+					</div>
+				</div>
+			</div>
+		</div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <h4>No active listings</h4>
+    {% endif %}
+
+    {% else %}
+    <h2>Category</h2>
+    <ul>
+        {% for category in categorys %}
+        <li><a href="{% url 'catview' category.id %}"> {{ category }}</a></li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+ 
+        
+    
+    
+
+
+{% endblock %}

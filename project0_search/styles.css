@@ -1,0 +1,124 @@
+.menu {
+	font-family: arial,sans-serif;
+	font-size: 13px;
+	padding: 50px;
+	text-align:right;
+	
+}
+
+
+
+
+.main {
+	padding: 150px;
+	text-align:center;
+}
+
+
+
+a {
+  	text-decoration: none;
+	color: #222;
+}
+
+
+a:hover {
+	text-decoration: underline;
+  	color: #777;
+}
+
+
+
+body, td, a, p, {
+    	font-family: arial,sans-serif;
+	font-size: small;
+    	background: #fff;
+    	color: #222;
+}
+
+body {
+    	font-family: arial,sans-serif;
+	font-size: small;
+    	background: #fff;
+    	color: #222;
+}
+
+
+
+.round {
+    	width: 500px;
+	height: 30px;
+    	border-radius: 26px;
+    	border: 1px #ccc solid;
+    	padding: 5px 5px 5px 25px;
+	Outline: none
+ 
+}
+
+
+.button {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 14.5px ;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: #555;
+  background-color: #eee;
+  border: 1px solid #fff;
+  border-radius: 5px;
+}
+
+.button:hover {background-color: #f5f5f5;
+color: #222;
+border: 1px solid #ddd;
+}
+
+.button:active {background-color: #f5f5f5;
+color: #222;
+border: 1px solid #2a9df4;
+
+
+}
+
+
+
+
+
+.button2 {
+  display: inline-block;
+  padding: 9px 18px;
+  font-size: 10px ;
+  font-weight: bold;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: white;
+  background-color: #4285f4;
+  border: 1px solid #fff;
+  border-radius: 5px;
+}
+
+.button2:hover {background-color: #3b77db;
+color: white;
+border: 1px solid #ddd;
+}
+
+.button2:active {background-color: #f5f5f5;
+color: #222;
+border: 1px solid #2a9df4;
+
+
+}
+
+
+
+.images { color: #4f86f7;
+	font-family: arial,sans-serif;
+	font-size: 18px;
+	font-weight: 500;
+        margin-left: 233px;
+	margin-top: -25px;
+margin-bottom: 30px;}

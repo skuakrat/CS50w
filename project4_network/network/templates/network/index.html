@@ -1,0 +1,101 @@
+{% extends "network/layout.html" %}
+{% load static %}
+
+
+{% block body %}
+
+
+    <div id="compose-view">
+        <div id="composeAlert"></div>
+        
+        <form id="compose-form" class="bg-light p-2 mb-5">
+            <h3>New Post</h3> 
+            <textarea class="form-control mb-3" id="compose-body" placeholder="What's going on?"></textarea>
+            <button class="btn btn-dark" type="button" id="submit">Submit</button>
+        </form>
+    </div>
+    
+
+
+
+    <div id="profile-user-view" class="mb-5">
+        <div id="composeAlert"></div>
+        
+        <form id="compose-form" class="mb-5" >
+            <h2 id="rfuser"></h2>
+            <div class="row">
+                <div class="col">
+                <p><span><strong>Email:</strong> <span id="proemail"></span></span></p>
+
+                    <button type="button" class="btn btn-dark" id="unfollowbutton">Unfollow</button>
+
+                    <button type="button" class="btn btn-dark" id="followbutton">Follow</button>
+
+
+                </div>
+                <div class="col">
+                    <span><strong>Followers: </strong><span id="followersnum">{{mypostsnum}}</span></span><br>
+                    <span><strong>Following: </strong><span id="followingsnum">{{mypostsnum}}</span></span>
+                </div>
+                
+            </div>
+        </form>
+
+        <div id="profile-followers-view" class="mb-5">
+            <h5>Followers</h5>
+            <div class="card mb-3">
+                <div class="card-body" id="profollowers"></div>
+                <div class="card-body" id="profollowers2"></div>
+            </div>  
+        </div>
+            
+            
+        <div id="profile-followings-view" class="mb-5">
+            <h5>Followings</h5>
+            <div class="card mb-3">
+                <div class="card-body" id="profollowings"></div>
+            </div>     
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+<h2 id="page-title">{{title}}</h2> <div id="requestuser1" value="{{ request.user }}">{{ request.user }}</div>
+
+<div id="profile-posts-view" class="mb-5">
+
+</div>
+
+
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        <li class="page-item">
+        <span class="page-link" style="cursor:pointer;" id="prebutton">Previous</span>
+        </li>
+        <span id="pagebutton"></span>
+        <li class="page-item">
+            <span class="page-link" style="cursor:pointer;" id="nextbutton">Next</span>
+        </li>
+    </ul>
+</nav>
+
+
+
+
+
+
+
+{% endblock %}
+
+
+
+
+
+
+
