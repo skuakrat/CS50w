@@ -1,0 +1,120 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>{% block title %}Petrescue.{% endblock %}</title>
+        <link rel="shortcut icon" type="image/png" href="{% static 'pet/img/favicon.png' %}"/>
+        <link href="{% static 'pet/styles.css' %}" rel="stylesheet">
+        <script src="{% static 'pet/layout.js' %}"></script>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        <script src="https://kit.fontawesome.com/4e5f893bf9.js" crossorigin="anonymous"></script>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Pattaya&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+        {% block script %}
+        {% endblock %}
+    </head>
+
+    <body class="bg-light">
+
+
+
+
+
+
+
+        
+
+        <nav class="navbar fixed-top navbar-expand-md navbar-light bg-light">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <a class="nav-link" href="{% url 'home' %}"><div class="navbar-brand text-primary"><i class="fa-solid fa-paw"></i> Petrescue.</div></a>
+
+  <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+      <li class="nav-item active">
+        <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'index' %}" id="all">Adopt</a>
+      </li>
+      {% if user.is_authenticated %}
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'add' %}" id="all">Add new</a>
+      </li>
+      {% endif %}
+
+
+    </ul>
+    {% if user.is_authenticated %}
+    <span class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="{% url 'profile' username=user.username %}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Hello,
+            <img src="{% if user.url %}{{user.url}}{% else %}https://i.pinimg.com/736x/c4/b5/2f/c4b52f2528f72098e58f954f77aa78a1.jpg{% endif %}" class="img-thumbnail img-responsive rounded-circle" style="width: 40px; height: 40px;"/>
+            <strong>{{ user.username }}!</strong>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="{% url 'profile' username=user.username %}">My profile</a>
+          <a class="dropdown-item" href="{% url 'index' %}?username={{user.username}}">My posts</a>
+          <a class="dropdown-item" href="{% url 'index' %}?follow={{user.username}}">My favorites</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="{% url 'logout' %}">Log Out</a>
+        </div>
+    </span>
+
+
+        <span class="nav-item">
+            <a class="dropdown-item" href="{% url 'dm' type='inbox' %}">Inbox <span class="badge badge-pill badge-primary" id="new_mail"></span></a>
+        </span>
+
+    {% else %}
+    <span class="nav-item">
+        <a class="nav-link" href="{% url 'login' %}">Log In</a>
+    </span>
+    <span class="nav-item">
+        <a class="nav-link" href="{% url 'register' %}">Register</a>
+    </span>
+    {% endif %}
+
+  </div>
+</nav>
+
+        {% block banner %}
+        {% endblock %}
+
+
+
+
+        
+        
+        
+        <div class="body p-4 mt-5">
+            {% block body %}
+            {% endblock %}
+
+            {% block paginator %}
+            {% endblock %}
+
+        </div>
+
+
+        <img src="{% static 'pet/img/pet.png' %}" class="img-fluid w-50 align-center mx-auto d-block" style="margin: 100px">
+        <div class="fixed-bottom" style="bottom: 20px; right: 20px;"><span id="go-top"><i class="fa-solid fa-circle-arrow-up"></i></span></div>
+        
+
+        <div class="footer-copyright text-center py-3 bg-p">
+            
+            <a href="{% url 'home' %}" style="display: inline-flex; align-items: center; justify-content: center; text-decoration: none;">
+                <i class="fa-solid fa-paw text-primary"></i>
+                <span class="text-primary" style="margin-left: 5px; font-family: Pattaya, sans-serif;">Petrescue.</span>
+            </a>
+            by Shama Kuakrathok - Final project for <a href="https://cs50.harvard.edu/web/2020/">CS50w</a> course by Harvard on <a href="https://www.edx.org/learn/web-development/harvard-university-cs50-s-web-programming-with-python-and-javascript">EdX</a>
+        </div>
+    </body>
+</html>

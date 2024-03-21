@@ -1,0 +1,131 @@
+{% extends "pet/layout.html" %}
+{% load static %}
+
+
+
+{% block banner %}
+
+{% endblock %}
+
+
+
+{% block body %}
+
+
+    <h1 id="header" class="text-primary text-center p-5"><br><i class="fa-solid fa-paw"></i> {{h1}}</h1>
+
+    <div class="text-center mb-5">
+        <a href="{% url 'dm' type='inbox' %}" type="button" class="btn btn-outline-primary">Inbox</a>
+        <a href="{% url 'dm' type='sent' %}" type="button" class="btn btn-outline-primary">Sent</a>
+    </div>
+
+
+    <div class="mb-1">
+    {% if dms %}
+    
+
+        {% for dm in dms %}
+        
+        <div class="card" style="{% if dm.read == True or h1 == 'Sent' %}background-color: #e3f2fd;{% endif %}" >
+
+
+            <div class="card-body">
+                <a href="{% url 'read' dm_id=dm.id  %}">
+                {% if dm.read == False and h1 == 'Inbox' %}<strong>{% endif %}
+                    
+                    <div class="row row align-items-center">
+
+                        <div class="col-3">
+                            {% if h1 == "Sent" %}
+                            <img src="{% if dm.to.url %}{{dm.to.url}}{% else %}https://i.pinimg.com/736x/c4/b5/2f/c4b52f2528f72098e58f954f77aa78a1.jpg{% endif %}" class="img-thumbnail img-responsive rounded-circle" style="width: 40px; height: 40px;"/>
+                            <span>{{dm.to.username}}</span>
+                            {% else %}
+                            <img src="{% if dm.user.url %}{{dm.user.url}}{% else %}https://i.pinimg.com/736x/c4/b5/2f/c4b52f2528f72098e58f954f77aa78a1.jpg{% endif %}" class="img-thumbnail img-responsive rounded-circle" style="width: 40px; height: 40px;"/>
+                            <span>{{dm.user.username}}</span>
+                            {% endif %}
+
+                        </div>
+                        <div class="col-6">
+                            {%if dm.topic %}{{dm.topic}}{%else%}(( no topic )){%endif%}
+
+                        </div>
+                        <div class="col-3">
+                            {{dm.timestamp}}
+                        </div>
+                    
+                    </div>
+
+                {% if dm.read == False and h1 == 'Inbox' %}</strong>{% endif %}
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    
+    {% else %}
+
+        <div class="h3 text-center"  style="margin-top: 100px; margin-bottom: 200px ;">No messages yet.</div>
+    
+    {% endif %}
+    </div>
+
+
+
+
+
+    <nav class="mt-1">
+        <ul class="pagination justify-content-center">
+        {% if dms.has_previous %}
+            <li class="page-item">
+            <a class="page-link" href="?page=1">&laquo; First</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="?page={{ dms.previous_page_number }}">Previous</a>
+          </li>
+          {% else %}
+          <li class="page-item disabled">
+            <span class="page-link" >&laquo; First</span>
+          </li>
+          <li class="page-item disabled">
+            <span class="page-link" >Previous</span>
+          </li>
+    
+          {% endif %}
+    
+    
+          
+          {% for i in dms.paginator.page_range %}
+          {% if dms.number == i %}
+            <li class="page-item active">
+                <span class="page-link">
+                {{i}}
+                <span class="sr-only">(current)</span>
+                </span>
+            </li>
+          {% else %}
+          <li class="page-item"><a class="page-link" href="?page={{i}}">{{i}}</a></li>
+          {% endif %}
+      {% endfor %}
+    
+    
+          {% if dms.has_next %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ dms.next_page_number }}">Next</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="?page={{ dms.paginator.num_pages }}">Last &raquo;</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <span class="page-link">Next</span>
+              </li>
+              <li class="page-item disabled">
+                <span class="page-link">Last &raquo;</span>
+                </li>
+          
+          {% endif %}
+        </ul>
+      </nav>
+
+
+    
+{% endblock %}

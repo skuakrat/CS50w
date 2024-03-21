@@ -1,0 +1,124 @@
+{% extends "pet/layout.html" %}
+{% load static %}
+
+
+
+{% block banner %}
+
+{% endblock %}
+
+
+
+{% block body %}
+
+
+    <h1 id="header" class="text-primary text-center pt-5"><i class="fa-solid fa-paw"></i> Pet profile</h1>
+
+    <div class="text-center my-5">
+        <a href="javascript:history.back()"><i class="fas fa-arrow-left"></i> Go Back</a>
+    </div>
+
+        <div class="card  p-5">
+
+            <div class="row">
+                <div class="mx-auto"style="max-width: 600px;">
+                    <img src="{% if post.url %}{{post.url}}{% else %}https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg{% endif %}" class="img-fluid align-center mx-auto d-block"/>
+                </div>
+            </div>
+
+            <div class="row">
+
+
+                <div class="col text-center mx-auto" style="max-width: 600px;">
+                                    
+                    <div>
+                        <span class="card-title mr-2">{{post.name}}</span> 
+                        {% if post.status == 1 %}
+                        <span class="badge badge-pill badge-success">I'm available!</span>
+                        {% else %}
+                        <span class="badge badge-pill badge-secondary">Sorry, I'm taken.</span>
+                        {% endif %}
+                        {% if user.is_authenticated %}
+                        {% if request.user in post.likes.all %}
+                        <span class="h3 text-right mr-4">
+                            <i class="fa-solid fa-heart" style="color: #ff0000; display: inline;" onclick="unfav({{post.id}})"  id="unfav-{{post.id}}"></i>
+                            <i class="fa-solid fa-heart" style="color: #c0c0c0; display: none;" onclick="fav({{post.id}})"  id="fav-{{post.id}}"></i>
+                        </span>
+                        {% else %}
+                        <span class="h3 text-right mr-4">
+                            <i class="fa-solid fa-heart" style="color: #ff0000; display: none;" onclick="unfav({{post.id}})" id="unfav-{{post.id}}"></i>
+                            <i class="fa-solid fa-heart" style="color: #c0c0c0; display: inline;" onclick="fav({{post.id}})" id="fav-{{post.id}}"></i>
+                        </span>
+                        {% endif %}
+                    {% endif %}
+                    </div>
+
+                    <p class="card-text m-2">"{{post.body}}"</p>
+                    <div>
+                        <span id="columnhead">Breed: </span><span>{{post.breed.breed}}</span>
+                    </div>
+                    <div>
+                        <span id="columnhead">Location: </span><span>{{post.province}}</span>
+                    </div>
+                    <div>
+                        <span id="columnhead">Location details: </span><span>{% if post.address %}{{post.address}}{% else %}-{% endif %}</span>
+                    </div>
+                    <div>
+                        <span id="columnhead">Posted on: </span><span>{{post.timestamp}}</span>
+                    </div>
+                    <div>
+                        <span id="columnhead">Posted by: </span><span>{{post.user}}</span>
+                    </div>
+
+                    <input type="hidden" id="postId" value="{{ post.id }}">
+
+                    {% if user.is_authenticated %}
+                        
+                        {% if post.user == user %}
+                            {% if post.status == 0 %}
+                            <div class="m-2" id="deact" style="display: none !important;"><small>1Found an adopter? Don't forget to deactivate this post. {{post.status}}</small><br><span class="btn btn-primary">Deactivate post</span></div>
+                            <div class="m-2" id="act" stlye="display: none !important;"><small>1Make this post active again. {{post.status}}</small><br><span class="btn btn-primary">Activate post</span></div>
+                            {% elif post.status == 1  %}
+                            <div class="m-2" id="deact" stlye="display: none !important;"><small>0Found an adopter? Don't forget to deactivate this post.</small><br><span class="btn btn-primary">Deactivate post</span></div>
+                            <div class="m-2" id="act" style="display: none !important;"><small>0Make this post active again.</small><br><span class="btn btn-primary">Activate post</span></div>
+                            {% endif %}
+                        {% else %}
+                        <div class="m-2"><small>Want to know more about this pet? DM owner.</small><br>
+                        <a href="{% url 'message' name=post.user %}" class="btn btn-primary mt-1">DM owner</a>
+                        {% endif %}
+                        <hr>
+                        <span class="card-title">Comments</span>
+
+                        {% for comment in comments %}
+                        <div >
+                        <strong id="columnhead">{{ comment.user.username }}</strong>
+                        <div>{{ comment.body }}</div>
+                        <small>({{ comment.timestamp }})</small>
+                        </div>
+                        <hr>
+                        {% endfor %}
+
+                        <form action="{% url 'post' id=post.id%}" method="POST">
+                            {% csrf_token %}
+                            <textarea class="form-control" type="textarea" rows="4" name="body" id="body" placeholder="Write your comment here..." required></textarea>
+                            <input class="btn btn-primary" type="submit" value="Submit">
+                        </form>
+                    {% endif %}
+
+                </div>
+
+
+            </div>
+        
+        </div>
+    </div>
+
+    <div class="text-center my-5">
+        <a href="javascript:history.back()"><i class="fas fa-arrow-left"></i> Go Back</a>
+    </div>
+
+{% endblock %}
+{% block script %}
+    <script src="{% static 'pet/index.js' %}"></script>
+    <script src="{% static 'pet/post.js' %}"></script>
+{% endblock %}

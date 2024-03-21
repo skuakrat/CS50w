@@ -1,0 +1,49 @@
+{% extends "pet/layout.html" %}
+{% load static %}
+
+
+
+{% block banner %}
+<img id="homeimg" src="{% static 'pet/img/home.png' %}" class="img-fluid w-100" alt="Responsive image">
+{% endblock %}
+
+
+
+{% block body %}
+
+
+    <h1 id="header" class="text-primary text-center p-5"><br>Welcome to <a href="{% url 'home' %}"><div class="navbar-brand" style="font-size: 50px !important; color: black;"><i class="fa-solid fa-paw"></i> Petrescue.</div></a></h1>
+
+    <div class="align-center mx-auto font-weight-light" style="max-width: 700px; font-size: 20px;">
+    <p>
+    Petrescue. is a compassionate and vibrant online community dedicated to creating a future where every pet finds a forever home. As a platform that bridges the gap between animal shelters, rescue groups, and potential pet parents, Petrescue. offers a comprehensive and user-friendly website where individuals can embark on their journey to adopt a pet, as well as post about their pets or stray animals in need of a loving home.
+    </p>
+    <p>
+    At the heart of PetRescue. is the belief that every animal deserves a second chance. The website features a wide variety of pets, including dogs, cats, rabbits, birds, and even small farm animals, each looking for a new family to love. With detailed profiles, photos, and information about each pet's personality, needs, and history, adopters can easily search for and find a pet that matches their lifestyle and preferences.
+    </p>
+    <p>
+    For those looking to rehome their pet or help a stray find a safe environment, Petrescue. provides a supportive platform to post and share their stories, increasing the chances of finding a suitable home. The website also offers resources and guidance on responsible pet ownership, adoption processes, and how to provide the best care for pets.
+    </p>
+    <p>
+        Petrescue. is more than just a website; it's a community-driven effort to make a positive impact on the lives of animals and people alike. By facilitating connections, sharing success stories, and providing support, Petrescue. aims to reduce the number of homeless pets and promote the joys and benefits of adopting a pet. Whether you're looking to adopt, foster, volunteer, or contribute to the cause, Petrescue. welcomes all animal lovers to join their mission in creating a world where every pet is safe, respected, and loved.
+    </p>
+    <p class="text-right">Shama Kuakrathok</p>
+    <p class="text-right"><strong>Admin</strong></p>
+    
+    </div>
+
+
+<div class="mx-auto text-center py-5">
+<a href="{% url 'index' %}" class=" btn btn-outline-primary m-2">Find pet to adopt</a> 
+{% if user.is_authenticated %} 
+<a href="{% url 'add' %}" class="btn btn-outline-primary m-2">List a new pet</a> 
+{% else %}
+<a href="{% url 'add' %}" class="btn btn-outline-primary m-2">Log in to list</a> 
+{% endif %}
+</div>
+
+
+</div>
+    </div>
+
+{% endblock %}

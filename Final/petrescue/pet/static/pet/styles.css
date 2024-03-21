@@ -1,0 +1,173 @@
+.nav-item {
+    cursor: pointer;
+    font-family: "Mitr", sans-serif;
+    font-weight: 300;
+    font-size: 20px;
+}
+
+.navbar-text {
+    cursor: pointer !important;
+    font-family: "Mitr", sans-serif !important;
+    font-weight: 300 !important;
+    font-size: 20px !important;
+}
+
+
+
+a {
+    cursor: pointer;
+}
+
+div {
+    cursor: default;
+}
+
+.link {
+    cursor: pointer;
+
+}
+
+.link:hover {
+    text-decoration: underline;
+}
+
+.card-columns {
+    column-count: 1;
+  }
+  
+  /* For tablets (screens at least 768px wide) */
+  @media (min-width: 768px) {
+    .card-columns {
+      column-count: 4;
+    }
+  }
+  
+  /* For PCs (screens at least 992px wide) */
+  @media (min-width: 992px) {
+    .card-columns {
+      column-count: 5;
+    }
+  }
+
+.navbar-brand {
+    font-family: "Pattaya", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 2rem !important;
+    cursor: pointer !important;
+}
+
+.homeimg {
+    padding-top: 100px !important;
+}
+
+.mitr-extralight {
+    font-family: "Mitr", sans-serif;
+    font-weight: 200;
+    font-style: normal;
+}
+
+.mitr-light {
+font-family: "Mitr", sans-serif;
+font-weight: 300;
+font-style: normal;
+}
+
+.mitr-regular {
+font-family: "Mitr", sans-serif;
+font-weight: 400;
+font-style: normal;
+}
+
+.mitr-medium {
+font-family: "Mitr", sans-serif;
+font-weight: 500;
+font-style: normal;
+}
+
+.mitr-semibold {
+font-family: "Mitr", sans-serif;
+font-weight: 600;
+font-style: normal;
+}
+
+.mitr-bold {
+font-family: "Mitr", sans-serif;
+font-weight: 700;
+font-style: normal;
+}
+
+#header {
+font-family: "Mitr", sans-serif;
+font-weight: 600;
+color: #539bee;
+font-style: normal;
+font-size: 50px;
+}
+
+.card-title {
+    font-family: "Mitr", sans-serif;
+    font-weight: 500;
+    color: #a0d7fa;
+    font-style: normal;
+    font-size: 30px;
+}
+
+.card-text {
+    font-family: "Mitr", sans-serif;
+    font-weight: 400;
+    color: #539bee;
+}
+
+#columnhead {
+    font-family: "Mitr", sans-serif;
+    font-weight: 600;
+    color: #a0d7fa;
+}
+
+.card-columns {
+    column-count: 1 !important;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .card-columns {
+        column-count: 2 !important;
+    }
+}
+
+
+@media (min-width: 992px) {
+    .card-columns {
+        column-count: 4 !important;
+    }
+}
+
+
+@media (max-width: 768px) {
+    .card-columns {
+        column-count: 1 !important;
+    }
+}
+
+.image{
+    position:relative;
+    overflow:hidden;
+    padding-bottom:100%;
+}
+.image img{
+      position: absolute;
+      min-width: 100%;
+      min-height: 100%;
+      top: 50%;
+      left: 50%;
+      transform: translateX(-50%) translateY(-50%);
+}
+
+#go-top {
+    cursor: pointer;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    font-size: 30px;
+}
+

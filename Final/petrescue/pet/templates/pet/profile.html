@@ -1,0 +1,46 @@
+{% extends "pet/layout.html" %}
+{% load static %}
+
+
+
+{% block banner %}
+
+{% endblock %}
+
+
+
+{% block body %}
+
+
+    <h1 id="header" class="text-primary text-center p-5"><i class="fa-solid fa-paw"></i> Profile</h1>
+    <div class="text-center">
+        <div class="mx-auto m-3" style="max-width: 250px;">
+            <div class="image">
+                <img src="{% if user.url %}{{user.url}}{% else %}https://i.pinimg.com/736x/c4/b5/2f/c4b52f2528f72098e58f954f77aa78a1.jpg{% endif %}" class="img-thumbnail img-responsive w-100 rounded-circle" />
+            </div>
+        </div>
+        <div style="font-size: 20px;">
+        <div><span id="columnhead">Username: </span><span>{{ user.username }}</span></div>
+        <div><span id="columnhead">My posts: </span><a href="{% url 'index' %}?username={{user.username}}"><span>{{ posts }}</span></a></div>
+        <div><span id="columnhead">My favorites: </span><a href="{% url 'index' %}?follow={{user.username}}"><span>{{ follows }}</span></a></div>
+        <div class="mt-4 text-center">
+            <form action="{% url 'profile' username=user.username %}" method="POST">
+            {% csrf_token %}
+                <span for="url" id="columnhead">Update Profile Image Url:</span></br>
+                <span><input type="url" name="url" id="url" style="max-width: 400px;" required></span>
+                <span><input class="btn btn-primary" type="submit" value="Submit"></span>
+            </form>
+
+            <form action="{% url 'profile' username=user.username %}" method="POST">
+                {% csrf_token %}
+                <span><input type="hidden" name="url" id="url"></span>
+                <span><input class="btn btn-outline-primary mt-2" type="submit" value="Remove Profile Image"></span>
+            </form>
+        </div>
+    </div>
+    </div>
+
+
+
+
+{% endblock %}

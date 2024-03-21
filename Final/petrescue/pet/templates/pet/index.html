@@ -1,0 +1,199 @@
+{% extends "pet/layout.html" %}
+{% load static %}
+
+
+
+{% block banner %}
+
+{% endblock %}
+
+
+
+{% block body %}
+
+    {% if request.GET.username == user.username %}
+    <h1 id="header" class="text-primary text-center p-5"><i class="fa-solid fa-paw"></i> My posts</h1>
+    {% elif request.GET.follow == user.username %}
+    <h1 id="header" class="text-primary text-center p-5"><i class="fa-solid fa-paw"></i> My favorites</h1>
+    {% else %}
+    <h1 id="header" class="text-primary text-center p-5"><i class="fa-solid fa-paw"></i> {{h1}}</h1>
+    {% endif %}
+
+    <div class="text-center mb-5" {% if typediv %} style="display: none;" {% endif %}>
+    <a href="{% url 'index' %}?{%if request.GET.username %}username={{ request.GET.username }}{% endif %}{%if request.GET.follow %}follow={{ request.GET.follow }}{% endif %}" type="button" class="btn btn-outline-primary mt-1">All</a>
+    {% for type in types %}
+    <a href="{% url 'index' %}?type={{type.id}}{%if request.GET.username %}&username={{ request.GET.username }}{% endif %}{%if request.GET.follow %}&follow={{ request.GET.follow }}{% endif %}" type="button" class="btn btn-outline-primary mt-1">{{type.type}}</a>
+    {% endfor %}
+    </div>
+    <div class="mx-auto text-center">
+        <form action="{% url 'index' %}" method="GET" >
+            {% csrf_token %}
+
+                
+
+            <label for="pet-location">Province</label>
+            <select class="custom-select" id="pet-location" name="province" required style="width: 300px;">
+        
+            <option selected></option>
+            {% for province in provinces %}
+            <option value="{{province.id}}">{{province}}</option>
+            {% endfor %}
+            </select>
+
+            <input class="btn btn-primary text-left" type="submit" value="Submit">
+
+
+            {% if request.GET.type %}
+            <input type="hidden" name="type" value="{{ request.GET.type }}">
+            {% endif %}
+
+            {% if request.GET.username %}
+            <input type="hidden" name="username" value="{{ request.GET.username }}">
+            {% endif %}
+
+
+
+        </form>
+    </div>
+
+    {% if search %} <div class="text-center m-5" style="font-size: 30px !important;" id="columnhead"> Result for: '{{search}}'</div> {% endif %}
+
+    <div style="margin-bottom: 200px;">
+        {% if posts %}
+        
+    
+
+        
+
+
+    <div class="card-columns">
+        {% for post in posts %}
+            <div class="card text-center pt-4">
+                <div class="text-right">
+                    {% if post.status == 1 %}
+                    <span class="badge badge-pill badge-success">I'm available!</span>
+                    {% else %}
+                    <span class="badge badge-pill badge-secondary">Sorry, I'm taken.</span>
+                    {% endif %}
+                    {% if user.is_authenticated %}
+                        {% if request.user in post.likes.all %}
+                        <span class="h3 text-right mr-4">
+                            <i class="fa-solid fa-heart" style="color: #ff0000; display: inline;" onclick="unfav({{post.id}})"  id="unfav-{{post.id}}"></i>
+                            <i class="fa-solid fa-heart" style="color: #c0c0c0; display: none;" onclick="fav({{post.id}})"  id="fav-{{post.id}}"></i>
+                        </span>
+                        {% else %}
+                        <span class="h3 text-right mr-4">
+                            <i class="fa-solid fa-heart" style="color: #ff0000; display: none;" onclick="unfav({{post.id}})" id="unfav-{{post.id}}"></i>
+                            <i class="fa-solid fa-heart" style="color: #c0c0c0; display: inline;" onclick="fav({{post.id}})" id="fav-{{post.id}}"></i>
+                        </span>
+                        {% endif %}
+                    {% endif %}
+                </div>
+                <div class="row">
+                    <div class="col-3">
+                    </div>
+                    <div class="col-6">
+                    <div class="image">
+                        <a href="{% url 'post' id=post.id %}"><img src="{% if post.url %}{{post.url}}{% else %}https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg{% endif %}" class="img-thumbnail img-responsive w-100 rounded-circle" /></a>
+                    </div>
+                    </div>
+                    <div class="col-3">
+                    </div>
+                </div>
+
+                <div class="card-body">
+                <h5 class="card-title">{{post.name}}</h5>
+                <p class="card-text">{{post.body}}</p>
+                <div class="row">
+                    <div class="col text-right" id="columnhead">
+                      Breed:
+                    </div>
+                    <div class="col text-left">
+                        {{post.breed.breed}}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col text-right" id="columnhead">
+                      Location:
+                    </div>
+                    <div class="col text-left">
+                        {{post.province}}
+                    </div>
+                </div>
+                <p class="blockquote-footer mt-2"><small class="text-muted ">Posted by: <a href="{% url 'message' name=post.user.username %}"><img src="{% if post.user.url %}{{post.user.url}}{% else %}https://i.pinimg.com/736x/c4/b5/2f/c4b52f2528f72098e58f954f77aa78a1.jpg{% endif %}" class="img-thumbnail img-responsive rounded-circle" style="width: 40px; height: 40px;"/><span class="text-primary">{{post.user}}</span></a> at {{post.timestamp}}</small></p>
+                <a href="{% url 'post' id=post.id %}" class="btn btn-primary">Read more</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    
+    <div class="h3 text-center"  style="margin-top: 100px; margin-bottom: 200px;">No results yet.</div>
+
+{% endif %}
+
+<nav class="mt-5">
+    <ul class="pagination justify-content-center">
+    {% if posts.has_previous %}
+        <li class="page-item">
+        <a class="page-link" href="?page=1">&laquo; First</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="?page={{ posts.previous_page_number }}">Previous</a>
+      </li>
+      {% else %}
+      <li class="page-item disabled">
+        <span class="page-link" >&laquo; First</span>
+      </li>
+      <li class="page-item disabled">
+        <span class="page-link" >Previous</span>
+      </li>
+
+      {% endif %}
+
+
+      
+      {% for i in posts.paginator.page_range %}
+      {% if posts.number == i %}
+        <li class="page-item active">
+            <span class="page-link">
+            {{i}}
+            <span class="sr-only">(current)</span>
+            </span>
+        </li>
+      {% else %}
+      <li class="page-item"><a class="page-link" href="?page={{i}}">{{i}}</a></li>
+      {% endif %}
+  {% endfor %}
+
+
+      {% if posts.has_next %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ posts.next_page_number }}">Next</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="?page={{ posts.paginator.num_pages }}">Last &raquo;</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <span class="page-link">Next</span>
+          </li>
+          <li class="page-item disabled">
+            <span class="page-link">Last &raquo;</span>
+            </li>
+      
+      {% endif %}
+    </ul>
+  </nav>
+
+
+
+    <div class="text-center">
+        <a href="javascript:history.back()"><i class="fas fa-arrow-left"></i> Go Back</a>
+    </div>
+
+{% endblock %}
+{% block script %}
+    <script src="{% static 'pet/index.js' %}"></script>
+{% endblock %}
